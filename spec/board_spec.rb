@@ -73,7 +73,7 @@ describe Board do
   end
 
   describe '#any_same_four_in_line?' do
-    subject(:board_line) { described_class.new(grid: grid)}
+    subject(:board_line) { described_class.new(grid: grid) }
 
     context 'when there is no 4 same items in any line' do
       let(:grid) do
@@ -136,6 +136,34 @@ describe Board do
 
       it 'return true' do
         expect(board_line).to be_any_same_four_in_line
+      end
+    end
+  end
+
+  describe '#full?' do
+    subject(:board_full) { described_class.new(grid: grid) }
+
+    context 'if the board is full' do
+      let(:grid) do
+        Array.new(7) { Array.new(6) { 'x' } }
+      end
+      it 'returns true' do
+        expect(board_full).to be_full
+      end
+    end
+
+    context 'if the board is not full' do
+      let(:grid) do
+        [['x', 'x', 'x', 'x', nil, nil],
+         [nil, 'o', nil, nil, nil, nil],
+         [nil, 'o', nil, nil, nil, nil],
+         [nil, 'o', nil, nil, nil, nil],
+         [nil, nil, nil, nil, nil, nil],
+         [nil, nil, nil, nil, nil, nil],
+         [nil, nil, nil, nil, nil, nil]]
+      end
+      it 'returns false' do
+        expect(board_full).not_to be_full
       end
     end
   end

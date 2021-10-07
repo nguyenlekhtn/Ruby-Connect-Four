@@ -26,6 +26,10 @@ class Board
     line_list.any?(&:four_items_same_value_continous?)
   end
 
+  def full?
+    grid.flatten.none?(&:nil?)
+  end
+
   private
 
   def default_grid
@@ -52,12 +56,12 @@ class Board
     grid_column(column).find_index(&:nil?)
   end
 
-  def column_top_stack_row(column)
-    first_empty_row = column_first_empty_row(column)
-    raise 'Column is empty' if first_empty_row.zero?
+  # def column_top_stack_row(column)
+  #   first_empty_row = column_first_empty_row(column)
+  #   raise 'Column is empty' if first_empty_row.zero?
 
-    first_empty_row - 1
-  end
+  #   first_empty_row - 1
+  # end
 
   # def vector_list(size)
   #   [Vector[size, 0], Vector[0, size], Vector[size, size], Vector[size, -size]]
@@ -109,17 +113,17 @@ class Board
     grid + grid.transpose + diagonal_downward + diagonals_upward
   end
 
-  def cross_lines_l2r
-    (0..(WIDTH - HEIGHT + 1)).each_with_object([]) do |memo, current|
-      memo + (0..HEIGHT - 1).map { |i| grid[i][i + current] }
-    end
-  end
+  # def cross_lines_l2r
+  #   (0..(WIDTH - HEIGHT + 1)).each_with_object([]) do |memo, current|
+  #     memo + (0..HEIGHT - 1).map { |i| grid[i][i + current] }
+  #   end
+  # end
 
-  def cross_lines_r2l
-    (0..(WIDTH - HEIGHT + 1)).each_with_object([]) do |memo, current|
-      memo + (0..HEIGHT - 1).map { |i| grid[i][i + current] }
-    end
-  end
+  # def cross_lines_r2l
+  #   (0..(WIDTH - HEIGHT + 1)).each_with_object([]) do |memo, current|
+  #     memo + (0..HEIGHT - 1).map { |i| grid[i][i + current] }
+  #   end
+  # end
 
   # https://stackoverflow.com/questions/2506621/ruby-getting-the-diagonal-elements-in-a-2d-array
   def diagonals_upward
