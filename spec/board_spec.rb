@@ -8,7 +8,7 @@ describe Board do
     end
 
     context 'when given no grid augument' do
-      subject(:board_initialize){ described_class.new }
+      subject(:board_initialize) { described_class.new }
       it 'have a default grid with 7 rows' do
         row_size = board_initialize.grid.size
         expect(row_size).to eq(7)
@@ -24,6 +24,22 @@ describe Board do
 
   describe '#drop' do
     subject(:board_drop) { described_class.new(grid: grid) }
+    context 'when the column argument is not valid' do
+      it 'retuns nil' do
+        invalid_column = 'd'
+        actual = board_drop.drop(column: invalid_column, marker: 'x')
+        expect(actual).to be_nil
+      end
+    end
+
+    context 'when the column argument is out range' do
+      it 'returns nil' do
+        out_range_column = 10
+        actual = board_drop.drop(column: out_range_column, marker: 'x')
+        expect(actual).to be_nil
+      end
+    end
+
     context 'when the column is full' do
       let(:grid) { [['x', nil, nil], ['x', nil, nil]] }
       it 'returns nil' do
@@ -48,15 +64,15 @@ describe Board do
       it 'drops the item at the first row' do
         board_drop.drop(column: 0, marker: 'x')
         dropped_grid =
-        [
-          ['x', nil, nil, nil, nil, nil],
-          [nil, nil, nil, nil, nil, nil],
-          [nil, nil, nil, nil, nil, nil],
-          [nil, nil, nil, nil, nil, nil],
-          [nil, nil, nil, nil, nil, nil],
-          [nil, nil, nil, nil, nil, nil],
-          [nil, nil, nil, nil, nil, nil]
-        ]
+          [
+            ['x', nil, nil, nil, nil, nil],
+            [nil, nil, nil, nil, nil, nil],
+            [nil, nil, nil, nil, nil, nil],
+            [nil, nil, nil, nil, nil, nil],
+            [nil, nil, nil, nil, nil, nil],
+            [nil, nil, nil, nil, nil, nil],
+            [nil, nil, nil, nil, nil, nil]
+          ]
         expect(board_drop.grid).to eq(dropped_grid)
       end
     end

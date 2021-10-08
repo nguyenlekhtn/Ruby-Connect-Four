@@ -3,7 +3,7 @@ require_relative '../lib/array'
 describe Array do
   describe '#four_item_same_value_continous?' do
     context 'when there is not 4 items same value continous in array' do
-      subject(:array) { ['x','o','o','o', nil, nil, nil] }
+      subject(:array) { ['x', 'o', 'o', 'o', nil, nil, nil] }
 
       it 'returns false' do
         expect(array).not_to be_four_items_same_value_continous
