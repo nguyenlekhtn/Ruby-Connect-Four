@@ -1,7 +1,7 @@
 require_relative 'board'
 
 class Player
-  attr_reader :marker
+  attr_reader :marker, :name
 
   def initialize(marker:, name: nil)
     @name = name
@@ -9,6 +9,11 @@ class Player
   end
 
   def column_input(available_columns)
+    input_help(available_columns)
+    user_input(available_columns)
+  end
+
+  def user_input(available_columns)
     loop do
       user_input = gets.chomp
       verified_input = verified_input(available_columns, user_input.to_i) if user_input.match(/^\d+$/)
@@ -20,7 +25,13 @@ class Player
 
   private
 
+  def input_help(available_columns)
+    puts <<~MSG
+      Please enter the column you want to drop your marker. Available columns: #{available_columns}"
+    MSG
+  end
+
   def verified_input(available_columns, input)
-    available_columns.include?(input)
+    return input if available_columns.include?(input)
   end
 end

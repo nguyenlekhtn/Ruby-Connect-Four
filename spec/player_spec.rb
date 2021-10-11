@@ -2,7 +2,7 @@ require_relative '../lib/player'
 require_relative '../lib/board'
 
 describe Player do
-  describe '#column_input' do
+  describe '#user_input' do
     subject(:game_input) { described_class.new(marker: 'x') }
     let(:available_columns) { [1, 2, 3] }
     let(:error_msg) { "Input error. Please enter a number amongs #{available_columns}" }
@@ -15,7 +15,11 @@ describe Player do
 
       it 'stop loop and does not display error message' do
         expect(game_input).to_not receive(:puts).with(error_msg)
-        game_input.column_input(available_columns)
+        game_input.user_input(available_columns)
+      end
+
+      it 'returns the integer of the input' do
+        expect(game_input.user_input(available_columns)).to eq(3)
       end
     end
 
@@ -28,7 +32,7 @@ describe Player do
 
       it 'complete loop and display error message once' do
         expect(game_input).to receive(:puts).with(error_msg).once
-        game_input.column_input(available_columns)
+        game_input.user_input(available_columns)
       end
     end
 
@@ -42,7 +46,7 @@ describe Player do
 
       it 'complete loop and display error message twice' do
         expect(game_input).to receive(:puts).with(error_msg).twice
-        game_input.column_input(available_columns)
+        game_input.user_input(available_columns)
       end
     end
   end
