@@ -87,7 +87,7 @@ class Board
 
   def board_string
     column_separator = ' | '
-    row_seprator = "#{Array.new(WIDTH * 2, '-').join}/n"
-    grid.map { |row| row.join(column_separator) }.join(row_seprator)
+    row_seprator = "\n#{Array.new(WIDTH * 3, '-').join}\n"
+    grid.map { |row| row.map{ |element| element.nil? ? ' ' : element }.join(column_separator) }.join(row_seprator)
   end
 end
