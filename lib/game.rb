@@ -1,3 +1,6 @@
+require_relative 'board'
+require_relative 'player'
+
 class Game
   attr_reader :board, :first_player, :second_player, :current_player
 
@@ -11,21 +14,73 @@ class Game
   def play
     game_setup
     show_board
-    players_turn
+    turns
     conclusion
   end
 
-  def create_player(index, duplicate)
+  def create_player(index:, duplicate: nil)
     name = player_name(index)
     marker = player_marker(index, duplicate)
     Player.new(name: name, marker: marker)
+  end
+
+  def turn
+    puts "#{current_player_name}'s turn"
+    column_input = current_player.column_input(board_available_columns)
+    board_drop_on_column(column_input)
+    show_board
+  end
+
+  def board_drop_on_column(column)
+    board.drop(column: column, marker: current_player_marker)
   end
 
   def show_board
     board.show
   end
 
+  def board_available_columns
+    board.available_columns
+  end
+
+  def board_full?
+    board.full?
+  end
+
+  def winner?
+    board.any_same_four_in_line?
+  end
+
+  def current_player_name
+    current_player.name
+  end
+
+  def current_player_marker
+    current_player.marker
+  end
+
   private
+
+  def conclusion
+    if winner?
+      annouce_winner(current_player_name)
+    else
+      annouce_tie
+    end
+  end
+
+  def switch_current_player
+    @current_player = current_player == first_player ? second_player : first_player
+  end
+
+  def turns
+    until board_full?
+      turn
+      break if winner?
+
+      switch_current_player
+    end
+  end
 
   def marker_input(duplicate)
     loop do
@@ -48,21 +103,28 @@ class Game
 
   def game_setup
     introduction
-    @first_player = create_player(0)
-    @second_player = create_player(1, first_player.marker)
+    @first_player = create_player(index: 0)
+    @second_player = create_player(index: 1, duplicate: first_player.marker)
+    @current_player = first_player
   end
 
-  def play_turn
-    available_columns = board.available_columns
-    column = current_player.column_input(available_columns)
-    board.make_drop_on(column)
-  end
+  # def play_turn
+  #   available_columns = board.available_columns
+  #   column = current_player.column_input(available_columns)
+  #   board.make_drop_on(column)
+  # end
 
   def introduction
-    <<~MSG
+    puts <<~MSG
       This is a Connect Four game.
     MSG
   end
 
-  
+  def annouce_winner(name)
+    puts "#{name} won. Congratulations ^.^"
+  end
+
+  def annouce_tie
+    puts 'No one won. Touch match right?'
+  end
 end
