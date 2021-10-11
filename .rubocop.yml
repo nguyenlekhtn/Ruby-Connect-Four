@@ -11,3 +11,5 @@ Layout/LineLength:
   Exclude:
     - 'spec/*'
     - 'spec_answers/*'
+Style/Documentation:
+  Enabled: false
