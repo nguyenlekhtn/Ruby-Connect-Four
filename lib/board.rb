@@ -34,6 +34,10 @@ class Board
     [*(0..WIDTH - 1)].reject { |i| column_full?(i) }
   end
 
+  def show
+    puts board_string
+  end
+
   private
 
   def valid_column?(column)
@@ -68,7 +72,6 @@ class Board
     grid + grid.transpose + diagonal_downward + diagonals_upward
   end
 
-
   # https://stackoverflow.com/questions/2506621/ruby-getting-the-diagonal-elements-in-a-2d-array
   def diagonals_upward
     padding = [*0..(HEIGHT - 1)].map { |i| [nil] * i }
@@ -80,5 +83,11 @@ class Board
     padding = [*0..(HEIGHT - 1)].map { |i| [nil] * i }
     padded = padding.zip(grid).zip(padding.reverse).map(&:flatten)
     padded.transpose.map(&:compact)
+  end
+
+  def board_string
+    column_separator = ' | '
+    row_seprator = "#{Array.new(WIDTH * 2, '-').join}/n"
+    grid.map { |row| row.join(column_separator) }.join(row_seprator)
   end
 end
