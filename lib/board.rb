@@ -31,7 +31,7 @@ class Board
   end
 
   def available_columns
-    []
+    [*(0..WIDTH - 1)].reject { |i| column_full?(i) }
   end
 
   private

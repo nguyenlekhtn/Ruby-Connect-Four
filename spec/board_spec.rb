@@ -172,13 +172,15 @@ describe Board do
 
     context 'if the board is not full' do
       let(:grid) do
-        [['x', 'x', 'x', 'x', nil, nil],
-         [nil, 'o', nil, nil, nil, nil],
-         [nil, 'o', nil, nil, nil, nil],
-         [nil, 'o', nil, nil, nil, nil],
-         [nil, nil, nil, nil, nil, nil],
-         [nil, nil, nil, nil, nil, nil],
-         [nil, nil, nil, nil, nil, nil]]
+        [
+          ['x', 'x', 'x', 'x', 'o', 'o'],
+          [nil, 'o', nil, nil, nil, nil],
+          [nil, 'o', nil, nil, nil, nil],
+          [nil, 'o', nil, nil, nil, nil],
+          [nil, nil, nil, nil, nil, nil],
+          [nil, nil, nil, nil, nil, nil],
+          [nil, nil, nil, nil, nil, nil]
+        ]
       end
       it 'returns false' do
         expect(board_full).not_to be_full
@@ -192,8 +194,36 @@ describe Board do
       let(:grid) do
         Array.new(7) { Array.new(6) { 'x' } }
       end
-      xit 'returns empty array' do
+      it 'returns empty array' do
         expect(board_available.available_columns).to eq([])
+      end
+    end
+
+    context 'when grid is empty' do
+      let(:grid) do
+        Array.new(7) { Array.new(6) }
+      end
+
+      it 'returns array from 0 to 6' do
+        expect(board_available.available_columns).to eq([*(0..5)])
+      end
+    end
+
+    context 'when all columns are full expect edge columns' do
+      let(:grid) do
+        [
+          ['x', 'x', 'x', 'x', 'o', 'o'],
+          ['x', 'x', 'x', 'x', 'o', 'o'],
+          ['x', 'x', 'x', 'x', 'o', 'o'],
+          ['x', 'x', 'x', 'x', 'o', 'o'],
+          ['x', 'x', 'x', 'x', 'o', 'o'],
+          ['x', 'x', 'x', 'x', 'o', 'o'],
+          [nil, 'x', 'x', 'x', 'o', nil]
+        ]
+      end
+
+      it 'returns [0, 5]' do
+        expect(board_available.available_columns).to eq([0, 5])
       end
     end
   end
