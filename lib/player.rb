@@ -3,7 +3,8 @@ require_relative 'board'
 class Player
   attr_reader :marker
 
-  def initialize(marker:)
+  def initialize(marker:, name: nil)
+    @name = name
     @marker = marker
   end
 
@@ -17,9 +18,9 @@ class Player
     end
   end
 
+  private
+
   def verified_input(available_columns, input)
     available_columns.include?(input)
   end
-
 end
-
