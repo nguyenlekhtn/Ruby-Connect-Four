@@ -1,24 +1,25 @@
 require_relative 'board'
 
 class Player
-  attr_reader :board, :marker
+  attr_reader :marker
 
-  def initialize(marker:, board:)
-    @board = board
+  def initialize(marker:)
     @marker = marker
   end
 
-  def play_turn
+  def column_input(available_columns)
     loop do
-      column = column_input
-      dropped_column = drop(column)
+      user_input = gets.chomp
+      verified_input = verified_input(available_columns, user_input.to_i) if user_input.match(/^\d+$/)
+      return verified_input if verified_input
 
-      break if dropped_column
+      puts "Input error. Please enter a number amongs #{available_columns}"
     end
   end
 
-  def drop(column)
-    board.drop(column: column, marker: marker)
+  def verified_input(available_columns, input)
+    available_columns.include?(input)
   end
+
 end
 

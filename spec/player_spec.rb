@@ -2,24 +2,48 @@ require_relative '../lib/player'
 require_relative '../lib/board'
 
 describe Player do
-  describe '#play_turn' do
+  describe '#column_input' do
+    subject(:game_input) { described_class.new(marker: 'x') }
+    let(:available_columns) { [1, 2, 3] }
+    let(:error_msg) { "Input error. Please enter a number amongs #{available_columns}" }
 
-    subject(:player_play) { described_class.new(marker: 'x', board: board) }
-    let(:board) { instance_double(Board) }
-
-
-
-    context 'when playing turn' do
+    context 'when user number is among available columns' do
       before do
-        allow(player_play).to receive(:gets).and_return('3')
+        valid_input = '3'
+        allow(game_input).to receive(:gets).and_return(valid_input)
       end
 
-      it 'sends drop to board with keyword args column is from input and marker is its marker' do
-        expect(board).to receive(:drop).with(column: 3, marker: 'x')
-        player_play.play_turn
+      it 'stop loop and does not display error message' do
+        expect(game_input).to_not receive(:puts).with(error_msg)
+        game_input.column_input(available_columns)
       end
     end
 
-    context 'when'
+    context 'when user input an incorrect value once, then a valid input' do
+      before do
+        invaid_input = '4'
+        valid_input = '3'
+        allow(game_input).to receive(:gets).and_return(invaid_input, valid_input)
+      end
+
+      it 'complete loop and display error message once' do
+        expect(game_input).to receive(:puts).with(error_msg).once
+        game_input.column_input(available_columns)
+      end
+    end
+
+    context 'when user inputs two incorrect value once, then a valid input' do
+      before do
+        symbol = '+'
+        out_range = '6'
+        valid_input = '3'
+        allow(game_input).to receive(:gets).and_return(symbol, out_range, valid_input)
+      end
+
+      it 'complete loop and display error message twice' do
+        expect(game_input).to receive(:puts).with(error_msg).twice
+        game_input.column_input(available_columns)
+      end
+    end
   end
 end
