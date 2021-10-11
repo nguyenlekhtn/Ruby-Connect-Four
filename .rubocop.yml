@@ -13,3 +13,6 @@ Layout/LineLength:
     - 'spec_answers/*'
 Style/Documentation:
   Enabled: false
+Style/WordArray:
+  Exclude:
+    - 'spec/*'
