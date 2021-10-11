@@ -14,7 +14,7 @@ class Board
   end
 
   def drop(column:, marker:)
-    return nil if valid_column?(column) && column_full?(column)
+    return nil if !valid_column?(column) || column_full?(column)
 
     drop_position = Position.new(row: column_first_empty_row(column), column: column)
 
@@ -30,10 +30,14 @@ class Board
     grid.flatten.none?(&:nil?)
   end
 
+  def available_columns
+    []
+  end
+
   private
 
   def valid_column?(column)
-    column.instance_of(Numeric) && column.between(0, WIDTH - 1)
+    column.between?(0, WIDTH - 1)
   end
 
   def default_grid

@@ -24,15 +24,17 @@ describe Board do
 
   describe '#drop' do
     subject(:board_drop) { described_class.new(grid: grid) }
-    context 'when the column argument is not valid' do
+    context 'when the column argument is < 0' do
+      let(:grid) { double('grid') }
       it 'retuns nil' do
-        invalid_column = 'd'
+        invalid_column = -1
         actual = board_drop.drop(column: invalid_column, marker: 'x')
         expect(actual).to be_nil
       end
     end
 
-    context 'when the column argument is out range' do
+    context 'when the column argument is bigger than width - 1' do
+      let(:grid) { double('grid') }
       it 'returns nil' do
         out_range_column = 10
         actual = board_drop.drop(column: out_range_column, marker: 'x')
@@ -180,6 +182,18 @@ describe Board do
       end
       it 'returns false' do
         expect(board_full).not_to be_full
+      end
+    end
+  end
+
+  describe '#availabe_columns' do
+    subject(:board_available) { described_class.new(grid: grid) }
+    context 'when all columns are full' do
+      let(:grid) do
+        Array.new(7) { Array.new(6) { 'x' } }
+      end
+      xit 'returns empty array' do
+        expect(board_available.available_columns).to eq([])
       end
     end
   end
