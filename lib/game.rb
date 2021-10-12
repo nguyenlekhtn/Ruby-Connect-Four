@@ -123,12 +123,6 @@ class Game
     @current_player = first_player
   end
 
-  # def play_turn
-  #   available_columns = board.available_columns
-  #   column = current_player.column_input(available_columns)
-  #   board.make_drop_on(column)
-  # end
-
   def annouce_winner(name)
     puts "#{name} won. Congratulations ^.^"
   end

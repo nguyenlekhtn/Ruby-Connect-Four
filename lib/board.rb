@@ -107,12 +107,4 @@ class Board
     header_string = row_string(header_arr, '   ')
     grid.reverse.map { |row| row_string(row, column_separator) }.join(row_separator).concat("\n#{header_string}")
   end
-
-  # def cell_string(string)
-  #   " __ \n | #{string || ' '} |\n __ "
-  # end
-
-  # def board_string
-  #   grid.map { |row| row.map { |cell| cell_string(cell) }.join }.join("\n")
-  # end
 end
