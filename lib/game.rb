@@ -28,7 +28,7 @@ class Game
   end
 
   def turn
-    puts "#{current_player_name}'s turn"
+    puts "#{current_player_name}'s turn (marker: #{current_player_marker})"
     column_input = current_player.column_input(board_available_columns)
     board_drop_on_column(column_input)
     show_board
@@ -88,9 +88,21 @@ class Game
   def marker_input(duplicate)
     loop do
       input = gets.chomp
-      return input if input != duplicate
+      verified_marker = verify_marker(input, duplicate)
+      return verified_marker if verified_marker
+    end
+  end
 
-      puts 'This character has been used. Please choose a different one'
+  def verify_marker(input, duplicate)
+    return input if 
+    if input.empty?
+      puts warning_message('empty_marker_error')
+    elsif input.length > 1
+      puts warning_message('long_marker_error')
+    elsif input == duplicate
+      puts warning_message('duplicate_error')
+    else
+      input
     end
   end
 

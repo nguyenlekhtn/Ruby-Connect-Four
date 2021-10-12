@@ -21,7 +21,7 @@ class Player
       verified_input = verified_input(available_columns, user_input.to_i) if user_input.match(/^\d+$/)
       return verified_input if verified_input
 
-      puts user_input_error(available_columns)
+      puts warning_message('column_error')
     end
   end
 
@@ -29,7 +29,7 @@ class Player
 
   def input_help(available_columns)
     puts <<~MSG
-      Please enter the column you want to drop your marker. Available columns: #{available_columns}"
+      Please enter the column you want to drop your marker. Available columns: #{available_columns}
     MSG
   end
 
