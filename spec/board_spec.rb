@@ -2,42 +2,22 @@ require_relative '../lib/board'
 # require_relative '../lib/position'
 
 describe Board do
-  describe '#initialize' do
-    it 'intiailize a board with a grid' do
-      expect { described_class.new(grid: 'grid') }.not_to raise_error
-    end
-
-    context 'when given no grid augument' do
-      subject(:board_initialize) { described_class.new }
-      it 'have a default grid with 7 rows' do
-        row_size = board_initialize.grid.size
-        expect(row_size).to eq(7)
-      end
-
-      it 'each row has size of 6' do
-        board_initialize.grid.each do |row|
-          expect(row.size).to eq(6)
-        end
-      end
-    end
-  end
-
   describe '#drop' do
     subject(:board_drop) { described_class.new(grid: grid) }
     context 'when the column argument is < 0' do
-      let(:grid) { double('grid') }
+      subject(:board) { described_class.new }
       it 'retuns nil' do
         invalid_column = -1
-        actual = board_drop.drop(column: invalid_column, marker: 'x')
+        actual = board.drop(column: invalid_column, marker: 'x')
         expect(actual).to be_nil
       end
     end
 
     context 'when the column argument is bigger than width - 1' do
-      let(:grid) { double('grid') }
+      subject(:board) { described_class.new}
       it 'returns nil' do
         out_range_column = 10
-        actual = board_drop.drop(column: out_range_column, marker: 'x')
+        actual = board.drop(column: out_range_column, marker: 'x')
         expect(actual).to be_nil
       end
     end

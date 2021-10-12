@@ -1,11 +1,12 @@
 require_relative '../lib/player'
 require_relative '../lib/board'
+require_relative '../lib/text_content'
 
 describe Player do
   describe '#user_input' do
     subject(:game_input) { described_class.new(marker: 'x') }
     let(:available_columns) { [1, 2, 3] }
-    let(:error_msg) { "Input error. Please enter a number amongs #{available_columns}" }
+    let(:error_msg) { TextContent.user_input_error(available_columns) }
 
     context 'when user number is among available columns' do
       before do

@@ -6,8 +6,8 @@ class Board
   attr_reader :grid
 
   MATCH_NUM = 4
-  WIDTH = 6
-  HEIGHT = 7
+  # width = 7
+  # height = 6
 
   def initialize(grid: default_grid)
     @grid = grid
@@ -31,21 +31,31 @@ class Board
   end
 
   def available_columns
-    [*(0..WIDTH - 1)].reject { |i| column_full?(i) }
+    [*(0..width - 1)].reject { |i| column_full?(i) }
   end
 
   def show
+    puts "\n"
     puts board_string
+    puts "\n"
+  end
+
+  def width
+    grid[0].length
+  end
+
+  def height
+    grid.length
   end
 
   private
 
   def valid_column?(column)
-    column.between?(0, WIDTH - 1)
+    column.between?(0, width - 1)
   end
 
   def default_grid
-    Array.new(HEIGHT) { Array.new(WIDTH) }
+    Array.new(6) { Array.new(7) }
   end
 
   def column_full?(column)
@@ -74,20 +84,35 @@ class Board
 
   # https://stackoverflow.com/questions/2506621/ruby-getting-the-diagonal-elements-in-a-2d-array
   def diagonals_upward
-    padding = [*0..(HEIGHT - 1)].map { |i| [nil] * i }
+    padding = [*0..(height - 1)].map { |i| [nil] * i }
     padded = padding.reverse.zip(grid).zip(padding).map(&:flatten)
     padded.transpose.map(&:compact)
   end
 
   def diagonal_downward
-    padding = [*0..(HEIGHT - 1)].map { |i| [nil] * i }
+    padding = [*0..(height - 1)].map { |i| [nil] * i }
     padded = padding.zip(grid).zip(padding.reverse).map(&:flatten)
     padded.transpose.map(&:compact)
   end
 
+  def row_string(row, column_separator)
+    inside = row.map { |element| element.nil? ? ' ' : element }.join(column_separator)
+    "#{column_separator}#{inside}#{column_separator}"
+  end
+
   def board_string
     column_separator = ' | '
-    row_seprator = "\n#{Array.new(WIDTH * 3, '-').join}\n"
-    grid.map { |row| row.map{ |element| element.nil? ? ' ' : element }.join(column_separator) }.join(row_seprator)
+    row_separator = "\n  #{Array.new(width, '-' * 3).join(' ')} \n"
+    header_arr = [*(0...width)]
+    header_string = row_string(header_arr, '   ')
+    grid.reverse.map { |row| row_string(row, column_separator) }.join(row_separator).concat("\n#{header_string}")
   end
+
+  # def cell_string(string)
+  #   " __ \n | #{string || ' '} |\n __ "
+  # end
+
+  # def board_string
+  #   grid.map { |row| row.map { |cell| cell_string(cell) }.join }.join("\n")
+  # end
 end

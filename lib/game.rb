@@ -1,7 +1,10 @@
 require_relative 'board'
 require_relative 'player'
+require_relative 'text_content'
 
 class Game
+  include TextContent
+
   attr_reader :board, :first_player, :second_player, :current_player
 
   def initialize(board: Board.new, first_player: nil, second_player: nil, current_player: nil)
@@ -102,7 +105,7 @@ class Game
   end
 
   def game_setup
-    introduction
+    puts introduction
     @first_player = create_player(index: 0)
     @second_player = create_player(index: 1, duplicate: first_player.marker)
     @current_player = first_player
@@ -113,12 +116,6 @@ class Game
   #   column = current_player.column_input(available_columns)
   #   board.make_drop_on(column)
   # end
-
-  def introduction
-    puts <<~MSG
-      This is a Connect Four game.
-    MSG
-  end
 
   def annouce_winner(name)
     puts "#{name} won. Congratulations ^.^"

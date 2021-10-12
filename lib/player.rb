@@ -1,6 +1,8 @@
 require_relative 'board'
+require_relative 'text_content'
 
 class Player
+  include TextContent
   attr_reader :marker, :name
 
   def initialize(marker:, name: nil)
@@ -19,7 +21,7 @@ class Player
       verified_input = verified_input(available_columns, user_input.to_i) if user_input.match(/^\d+$/)
       return verified_input if verified_input
 
-      puts "Input error. Please enter a number amongs #{available_columns}"
+      puts user_input_error(available_columns)
     end
   end
 
