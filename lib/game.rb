@@ -94,7 +94,7 @@ class Game
   end
 
   def verify_marker(input, duplicate)
-    return input if 
+    return input if
     if input.empty?
       puts warning_message('empty_marker_error')
     elsif input.length > 1

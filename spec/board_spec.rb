@@ -14,7 +14,7 @@ describe Board do
     end
 
     context 'when the column argument is bigger than width - 1' do
-      subject(:board) { described_class.new}
+      subject(:board) { described_class.new }
       it 'returns nil' do
         out_range_column = 10
         actual = board.drop(column: out_range_column, marker: 'x')

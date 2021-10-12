@@ -23,7 +23,7 @@ module TextContent
   def warning_message(message)
     {
       'empty_marker_error' => red('You have to put something!!'),
-      'column_error' => red("Input error. Please enter a number among available columns"),
+      'column_error' => red('Input error. Please enter a number among available columns'),
       'duplicate_error' => red('This character has been used. Please choose a different one'),
       'long_marker_error' => red('Marker only contained 1 character. Please choose a different one')
     }[message]

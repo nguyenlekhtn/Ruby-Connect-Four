@@ -2,9 +2,8 @@ require_relative '../lib/board'
 require_relative '../lib/game'
 require_relative '../lib/player'
 
-
 describe Game do
-  describe "#show_board" do
+  describe '#show_board' do
     subject(:game_show) { described_class.new(board: board) }
     let(:board) { instance_double(Board) }
 
@@ -14,13 +13,13 @@ describe Game do
     end
   end
 
-  describe "#create_player" do
+  describe '#create_player' do
     subject(:game_player) { described_class.new }
 
     it 'creates player with given name and marker' do
-      allow(game_player).to receive(:player_name).and_return("foo")
-      allow(game_player).to receive(:player_marker).and_return("bar")
-      expect(Player).to receive(:new).with(name: "foo", marker: "bar")
+      allow(game_player).to receive(:player_name).and_return('foo')
+      allow(game_player).to receive(:player_marker).and_return('bar')
+      expect(Player).to receive(:new).with(name: 'foo', marker: 'bar')
       game_player.create_player(0, 'x')
     end
   end
@@ -54,7 +53,6 @@ describe Game do
       allow(player).to receive(:marker).and_return('x')
     end
 
-   
     it 'sends drop to board with corresponed column' do
       expect(board).to receive(:drop).with(column: 2, marker: 'x')
       game_drop.board_drop_on_column(2)
